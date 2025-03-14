@@ -9,16 +9,17 @@ import (
 )
 
 type handler struct {
-	// recommendation serviceRecommendation
+	feedback serviceFeedback
 	// metric         metric
 	log *logrus.Logger
 }
 
-func New(log *logrus.Logger) *handler {
+func New(log *logrus.Logger, feedback serviceFeedback) *handler {
 	return &handler{
 		// recommendation: recommendation,
 		// metric:         metric,
-		log: log,
+		log:      log,
+		feedback: feedback,
 	}
 }
 
@@ -31,8 +32,8 @@ func (h handler) Init() http.Handler {
 	//metrics
 	r.Handle("/metrics", promhttp.Handler())
 
-	//recommendation
-	//r.HandleFunc("GET /api/recommendation", h.getRecommendation)
+	//feedback
+	r.HandleFunc("POST /feedback", h.postFeedback)
 
 	//middleware
 	stack := []middleware{

@@ -12,6 +12,7 @@ import (
 
 	"github.com/probuborka/feedback/internal/config"
 	handlers "github.com/probuborka/feedback/internal/controller/http"
+	"github.com/probuborka/feedback/internal/usecase/feedback"
 	"github.com/probuborka/feedback/pkg/route"
 	"github.com/sirupsen/logrus"
 )
@@ -46,10 +47,12 @@ func Run() {
 	//-------------------------------------- infrastructure
 
 	//-------------------------------------- usecase
+	useCaseFeedback := feedback.NewFeedbackUseCase()
 
 	//-------------------------------------- handlers
 	handlers := handlers.New(
 		log,
+		useCaseFeedback,
 	)
 
 	//-------------------------------------- server
